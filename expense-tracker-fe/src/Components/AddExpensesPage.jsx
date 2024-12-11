@@ -63,6 +63,21 @@ function AddExpensesPage() {
     setExpense(exp); // Populate the form with the selected expense
   };
 
+  // Handle Delete
+const handleDelete = async (exp) => {
+  const token = localStorage.getItem("token");
+  try {
+    await axios.delete(`http://localhost:8080/api/expenses/${exp.id}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    fetchExpenses();
+    fetchTotalAmount();
+  } catch (error) {
+    console.error("Error deleting expense:", error);
+  }
+};
+
+
   // Handle Logout
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -117,6 +132,19 @@ function AddExpensesPage() {
                 cursor: "pointer",
               }}
               >Edit</button>
+              <button 
+              type="button"
+              onClick={() => handleDelete(exp)}
+              style={{
+                backgroundColor: "#f44336",
+                color: "#fff",
+                border: "none",
+                width: "20%",
+                padding: "3px 8px", // Reduced padding for a smaller button
+                fontSize: "12px", // Smaller font size
+                cursor: "pointer",
+              }}
+              >Delete</button>
           </li>
         ))}
       </ul>
