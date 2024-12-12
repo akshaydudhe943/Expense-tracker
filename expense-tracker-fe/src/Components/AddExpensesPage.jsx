@@ -6,6 +6,7 @@ function AddExpensesPage() {
   const [expense, setExpense] = useState({ id: null, category: "", amount: "", comments: "" });
   const [expenses, setExpenses] = useState([]);
   const [total, setTotal] = useState(0);
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   // Fetch Expenses
@@ -34,9 +35,25 @@ function AddExpensesPage() {
     }
   };
 
+  const validateForm = () => {
+    if (!expense.category) {
+      setError("Category is required.");
+      return false;
+    }
+    if (!expense.amount) {
+      setError("Amount is required.");
+      return false;
+    }
+    setError(""); // Clear any previous error messages
+    return true;
+  };
+
   // Add or Update Expense
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!validateForm()) return;
+
     const token = localStorage.getItem("token");
     try {
       if (expense.id) {
@@ -114,6 +131,7 @@ const handleDelete = async (exp) => {
         />
         <button type="submit">{expense.id ? "Update Expense" : "Add Expense"}</button>
       </form>
+      {error && <p className="error-message" style={{color: "red"}}>{error}</p>} {/* Display error message */}
 
       <h3>Expenses</h3>
       <ul>
