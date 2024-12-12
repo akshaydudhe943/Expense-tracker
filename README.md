@@ -8,5 +8,3 @@ This application uses the H2 database for storing data. To access the H2 Console
    - **Username**: `sa`
    - **Password**: `password`
 
-### Note
-Ensure that the H2 Console is enabled in the application configuration for access during development. 
